@@ -44,12 +44,24 @@ class PlanController extends Controller
 
     public function destroy($url)
     {
-        $plan = $this->repository->where('url',$url)->first();
+        $plan = $this->repository
+                        ->with(['details'])
+                        ->where('url',$url)->first();
+
         if(!$plan)
             return redirect()->back();
 
-        $plan->delete();
-        return redirect()->route('plans.index');
+        if($plan->details()->count() > 0)
+        {
+            return redirect()
+                        ->route('plans.index')
+                        ->with('error','Não é possivel deletar Plano com Detalhes!');    
+        }else{
+            $plan->delete();
+            return redirect()->route('plans.index');    
+        }
+        
+
     }
 
     public function search(Request $request)

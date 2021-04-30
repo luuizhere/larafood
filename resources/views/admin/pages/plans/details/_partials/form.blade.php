@@ -1,4 +1,6 @@
+@include('admin.includes.alerts')
 @csrf
+
 <div class="form-group">
     <label>Nome:</label>
     <input type="text" name="name" placeholder="Nome:" class="form-control" value="{{ $detail->name ?? old('name') }}" >
