@@ -39,7 +39,7 @@
                                 {{$permission->name}}
                             </td>
                             <td width="250">
-                                <a href=" {{ route('profiles.show',$permission->id) }}" class="btn btn-warning">Ver</a>
+                                <a href=" {{ route('profiles.permissions.detach',[$profile->id,$permission->id]) }}" class="btn btn-warning">Desvincular</a>
                             </td>
                         </tr>
                     @endforeach

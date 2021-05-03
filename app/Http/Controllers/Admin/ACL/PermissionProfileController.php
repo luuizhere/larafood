@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 class PermissionProfileController extends Controller
 {
     protected $profile,$permission;
-    public function __construct(Profile $profile,Permission $permission)
-    {
+    public function __construct(Profile $profile,Permission $permission){
         $this->profile = $profile;
         $this->permission = $permission;
     }
@@ -20,8 +19,7 @@ class PermissionProfileController extends Controller
     public function permissions($idProfile)
     {
         $profile = $this->profile->find($idProfile);
-        if(!$profile)
-        {   
+        if(!$profile){   
             return redirect()->back();
         }
 
@@ -32,8 +30,7 @@ class PermissionProfileController extends Controller
 
     public function permissionsAvailable(Request $request, $idProfile)
     {
-        if(!$profile = $this->profile->find($idProfile))
-        {   
+        if(!$profile = $this->profile->find($idProfile)){   
             return redirect()->back();
         }
         $filters = $request->except('_token');
@@ -45,13 +42,11 @@ class PermissionProfileController extends Controller
 
     public function attachPermissionsProfile(Request $request, $idProfile)
     {
-        if(!$profile = $this->profile->find($idProfile))
-        {   
+        if(!$profile = $this->profile->find($idProfile)){   
             return redirect()->back();
         }
 
-        if( !$request->permissions || count($request->permissions) == 0)
-        {   
+        if( !$request->permissions || count($request->permissions) == 0){   
             return redirect()
             ->back()
             ->with('info','Você precisa selecionar ao menos uma Permissão');
@@ -62,5 +57,16 @@ class PermissionProfileController extends Controller
         return redirect()->route('profiles.permissions',$profile->id);
     }
 
+    public function detachPermissionProfile($idProfile,$idPermission)
+    {
+        $profile = $this->profile->find($idProfile);
+        $permission = $this->permission->find($idPermission);
 
+        if(!$profile || !$permission){   
+            return redirect()->back();
+        }
+
+        $profile->permissions()->detach($permission);
+        return redirect()->route('profiles.permissions',$profile->id);
+    }
 }
