@@ -3,6 +3,20 @@
 Route::prefix('admin')->namespace('Admin')->group(function(){
 
     /**
+     * Routes Permissions Profiles
+     */
+
+    Route::post('profile/{id}/permissions','ACL\PermissionProfileController@attachPermissionsProfile')->name('profiles.permissions.attach');
+    // Route::any('profile/{id}/permissions/create/search','ACL\PermissionProfileController@filterPermissionsAvailable')->name('profiles.permissions.available.search');
+    Route::any('profile/{id}/permissions/create','ACL\PermissionProfileController@permissionsAvailable')->name('profiles.permissions.available');
+    Route::get('profile/{id}/permissions','ACL\PermissionProfileController@permissions')->name('profiles.permissions');
+
+    /**
+     * Routes Permissions
+     */
+    Route::resource('permissions','ACL\PermissionController');
+
+    /**
      * Routes Profiles
      */
     Route::resource('profiles','ACL\ProfileController');
